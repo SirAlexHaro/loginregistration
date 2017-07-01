@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Users</title>
+  </head>
+  <body>
+    <div class="header">
+      <a href="/success">Success</a>
+      <a href="/logout">Logout</a>
+
+    </div>
+    <h1>Posts by:{{ pull.alias }} </h1>
+
+    {% for i in quotes %}
+      <p>{{i.quotedby}} : {{i.message}}</p>
+    {%endfor%}
+
+  </body>
+</html>
+
+<!-- "quotes" = Quote.objects.all().filter(quoter=request.session.'userId']) -->
+<!-- use this query to call all the quotes from the user in session -->

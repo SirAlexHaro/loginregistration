@@ -16,11 +16,11 @@
     <h1>Registration</h1>
     <form class="" action="/add" method="post">
       {% csrf_token %}
-      <label for="">First Name: </label><br>
-      <input type="text" name="firstname"><br>
+      <label for="">Name: </label><br>
+      <input type="text" name="name"><br>
 
-      <label for="">Last Name: </label><br>
-      <input type="text" name="lastname"><br>
+      <label for="">Alias: </label><br>
+      <input type="text" name="alias"><br>
 
       <label for="">Email: </label><br>
       <input type="text" name="email"><br>
@@ -30,6 +30,9 @@
 
       <label for="">Confirm Password: </label><br>
       <input type="password" name="confirmpassword"><br>
+
+      <label for="">Date of Birth: </label><br>
+      <input type="date" name="bday"><br>
       <input type="submit" value ="Register">
     </form>
     <h1>Login</h1>

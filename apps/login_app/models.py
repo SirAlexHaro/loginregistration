@@ -5,14 +5,14 @@ import re
 EMAIL_REGEX =re.compile (r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class UserManager(models.Manager):
-    def makeUser(self,firstname, lastname, email, password, confirmpassword):
+    def makeUser(self,name, alias, email, password, confirmpassword):
 
         errors =[]
         user_list = User.objects.filter(email=email)
 
-        if len(firstname) < 2:
+        if len(name) < 2:
             errors.append("first name is too short")
-        if len(lastname) < 2:
+        if len(alias) < 2:
             errors.append("last name is too short")
 
         if len(email) < 2:
@@ -29,7 +29,7 @@ class UserManager(models.Manager):
             if email == User.objects.filter(email=email):
                 errors.append("email not valid")
             else:
-                user = User.objects.create(firstname=firstname, lastname=lastname, email=email, password=password)
+                user = User.objects.create(name=name, alias=alias, email=email, password=password)
             return {"status":True, "user": user_list[0]}
 
         else:
@@ -49,9 +49,21 @@ class UserManager(models.Manager):
         else:
             return {"status": False}
 
+class QuoteManager(models.Manager):
+    def makeQuote(self,quoter,quotedby, message):
+        errors =[]
+
+        if len(quotedby) < 2:
+            errors.append("Name is too short")
+        if len(message) < 2:
+            errors.append("Message Invalid")
+        if not errors:
+                quote = Quote.objects.create(quoter=quoter, quotedby=quotedby, message=message)
+        return {"status":True}
+
 class User(models.Model):
-    firstname = models.CharField(max_length = 26)
-    lastname = models.CharField(max_length = 26)
+    name = models.CharField(max_length = 26)
+    alias = models.CharField(max_length = 26)
     email = models.CharField(max_length = 26)
     password = models.CharField(max_length = 26)
     confirmpassword = models.CharField(max_length = 26)
@@ -59,3 +71,13 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = UserManager()
+
+class Quote(models.Model):
+    quoter = models.ForeignKey(User, related_name ="quoting_user")
+    quotedby= models.CharField(max_length = 26)
+    message = models.CharField(max_length = 26)
+    counter = models.IntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    objects = QuoteManager()

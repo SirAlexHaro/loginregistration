@@ -5,9 +5,36 @@
     <title>Succesful Login</title>
   </head>
   <body>
-    <h1>Usernames</h1>
+      <a href="/logout">Logout</a>
+      <h1> Welcome {{ pull.alias }} !</h1>
+    <div class="quotable">
+      <h3>Quotable Quotes</h3>
+      {% for quote in quotes %}
+        <p>{{quote.quotedby}} : {{quote.message}}</p>
+        <p>Posted By:<a href="/users/{{quote.quoter.id}}/">{{quote.quoter.name}}</a></p>
+      {% endfor %}
+    </div>
 
-      <h2>Hi {{ pull.firstname }}, welcome !</h2>
+    <div class="favorites">
+      <h3>Your Favorites</h3>
+        <p>{{quotes.message}}</p>
 
+
+    </div>
+
+    <div class="form">
+      <h3>Contribute a Quote</h3>
+      <form class="quote" action="/process" method="post">
+        {% csrf_token %}
+        <label for="">Quoted By: </label>
+        <input type="text" name="quotedby"><br>
+
+        <label for="">Message: </label><br>
+        <textarea type="text" name="message"></textarea><br>
+        <input type="submit" value ="Submit Quote">
+
+      </form>
+
+    </div>
   </body>
 </html>
